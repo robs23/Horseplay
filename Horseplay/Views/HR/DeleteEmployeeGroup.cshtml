@@ -1,0 +1,28 @@
+﻿@model Horseplay.Models.EmployeeGroup
+
+
+<h3>Czy na pewno chcesz usunąć tę grupę?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+    
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    
+    </dl>
+    
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.EmployeeGroupId)
+        @Html.AntiForgeryToken()
+    
+        <div class="form-actions no-color">
+            <input type="submit" value="Usuń" class="btn btn-danger" /> |
+            @Html.ActionLink("Powrót do listy grup pracowników", "GetEmployeeGroups")
+        </div>
+    }
+</div>

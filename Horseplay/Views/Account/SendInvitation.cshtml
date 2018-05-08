@@ -1,0 +1,24 @@
+﻿@model Horseplay.Models.Invitation
+
+    @using (Html.BeginForm()) 
+    {
+        @Html.AntiForgeryToken()
+        <br />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <br />
+        <div id="invitationHeader">
+            <h5>Wpisz adres e-mail osoby, którą chciałbyś zaprosić do swojej firmy. Będzie ona miała dostęp do danych tworzonych przez Ciebie, Ty również będziesz miał dostęp do danych tworzonych przez tę osobę.</h5>
+        </div>
+        <hr />
+        <br />
+        <div id="invitationMail">
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.InvitedMail, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.InvitedMail, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div style="margin:auto; width:220px">
+            <input type="submit" name="submit" id="submit" value="Wyślij zaproszenie" class="btn btn-success" title="Wyślij zaproszenie" style="margin-left: 20px" />
+        </div>
+    }
+    

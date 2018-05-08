@@ -1,0 +1,12 @@
+﻿
+@model Horseplay.Models.User
+
+@if (TempData["Info"] != null)
+{
+    <br />
+    <p class="alert alert-info" id="infoMessage">@TempData["Info"]</p>
+    <br />
+}
+
+<h4 class="text-center">Gratulacje! Użytkownik @Model.Login został utworzony pomyślnie! @Html.ActionLink("Zaloguj się","Login","Home") teraz do swojego konta.</h4>
+

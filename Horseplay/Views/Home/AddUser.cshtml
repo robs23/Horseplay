@@ -1,0 +1,29 @@
+﻿@model Horseplay.ViewModels.AddingUserViewModel
+
+    <div>
+        @using (Html.BeginForm("AddUser", "Home"))
+        {
+            @Html.HiddenFor(m=>m.User.TenantId)
+            if(Model.Invitation != null)
+            {
+                @Html.HiddenFor(m => m.Invitation.InvitationToken)
+                @Html.HiddenFor(m=>m.Invitation.InvitedMail)
+
+            }
+            @*@Html.HiddenFor(m => m.Invitation.InvitedMail, new { Value = "" })*@
+
+            <div class="form-centered2">
+                @if (TempData["TenantId"] != null)
+                {
+                    <p class="alert alert-info" id="infoMessage">Aby przyjąć zaproszenie wypełnij dane poniżej i kliknij "Utwórz konto"</p>
+                    <br />
+                }
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.EditorFor(m => m.User, new { htmlAttributes = new { @class = "form-control tb-center" }, })
+                <br /><br />
+                <div class="button-horizontally">
+                    <input type="submit" value="Utwórz konto" class="btn btn-success" />
+                </div>
+            </div>
+        }
+    </div>

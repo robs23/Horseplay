@@ -1,0 +1,13 @@
+﻿@model Horseplay.Models.CompanyGroup
+
+<body>
+    <div>
+        @using (Html.BeginForm("AddCompanyGroup", "CompanyGroup"))
+        {
+            @Html.ValidationSummary(true)
+            @Html.EditorFor(m => m, new { htmlAttributes = new { @class = "form-control" }, })
+            <input type="submit" value="Zapisz" class="btn btn-success" />
+        }
+    </div>
+</body>
+

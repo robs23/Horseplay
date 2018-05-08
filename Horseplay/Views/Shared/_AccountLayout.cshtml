@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Systo</title>
+    <link rel="icon" href="~/Content/favicon.ico" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @*<meta name="viewport" content="width=device-width" />*@
+    <link rel="stylesheet" type="text/css" href="~/Content/Styles.css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <header>
+        <div id="top">
+            <a href="http://systo.pl" class="logo logo-orange">
+                <div class="circle circle-orange">
+                    S
+                </div>
+                ysto
+            </a>
+            <nav id="side-menu">
+                <ul>
+                    <li>
+                        <a href="/Account/Index" class="stylish orange"><div class="small-circle circle-orange">K</div>onto</a>
+                        <ul>
+                            <li><a href="/HR/Index" class="stylish green"><div class="small-circle circle-green">H</div>R</a></li>
+                            <li><a href="/Finance/Index" class="stylish blue"><div class="small-circle circle-blue">F</div>inanse</a></li>
+                            <li><a href="/Logistics/Index" class="stylish purple"><div class="small-circle circle-purple">L</div>ogistyka</a></li>
+                            <li><a href="/CRM/Index" class="stylish red"><div class="small-circle circle-red">C</div>RM</a></li>
+                            <li><a href="/Production/Index" class="stylish black"><div class="small-circle circle-black">P</div>rodukcja</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <nav id="mainMenu" class="menu-orange">
+            <a href="#mainMenu" title="Pokaż menu">Poka sowe</a>
+            <a href="#" title="Ukryj menu">Howa sowe</a>
+            <ul>
+                <li><a href="../Error/UnderConstruction">Moja firma</a></li>
+                <li>
+                    @Html.ActionLink("Użytkownicy", "GetUsers",null,new { @aria_haspopup="true"})
+                    <ul>
+                        <li>@Html.ActionLink("Wyślij zaproszenie!", "SendInvitation")</li>
+                        <li>@Html.ActionLink("Zaproszenia", "GetInvitations")</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../Error/UnderConstruction" aria-haspopup="true">Role</a>
+                    <ul>
+                        <li><a href="../Error/UnderConstruction">Nowa rola</a></li>
+                        <li><a href="../Error/UnderConstruction">Użytkownicy wg roli</a></li>
+                        <li><a href="../Error/UnderConstruction">Role użytkownika</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="../Error/UnderConstruction" aria-haspopup="true">Uprawnienia</a>
+                    <ul>
+                        <li><a href="../Error/UnderConstruction">Uprawnienia wg roli</a></li>
+                        <li><a href="../Error/UnderConstruction">Skopiuj uprawnienia</a></li>
+                    </ul>
+                </li>
+                <li><a href="../Error/UnderConstruction">Ustawienia</a></li>
+            </ul>
+        </nav>
+    </header>
+  
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+        </div>
+            <footer id="mainFooter">
+                <div class="about-links">
+                    <samll>@Html.ActionLink("O aplikacji..", "AboutApplication", "Home")</samll>
+                    <samll>@Html.ActionLink("O autorze..", "AboutAuthor", "Home")</samll>
+                </div>
+                <small>@DateTime.Now.Year - Systo.pl</small>
+            </footer>
+    <script src="/Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var navY = $('nav').offset().top;
+            var stickyNav = function () {
+                var scrollY = $(window).scrollTop();
+                if (scrollY > navY) {
+                    $('nav').addClass('sticky');
+                } else {
+                    $('nav').removeClass('sticky');
+                }
+            };
+            stickyNav();
+            $(window).scroll(function () {
+                stickyNav();
+            });
+        }
+    );
+    </script>
+    <script>
+        $(document).ready(function () {
+            // getting the color before the color is changed ( not sure this is needed )
+            var orange = $('.orange').css("color");
+            var green = $('.green').css("color");
+            var red = $('.red').css("color");
+            var blue = $('.blue').css("color");
+            var purple = $('.purple').css("color");
+            var black = $('.black').css("color");
+            $(".stylish").mouseover(function () {
+                // setting the color previously picked
+                if ($(this).hasClass("orange")) {
+                    $(this).css({ 'color': orange });
+                } else if ($(this).hasClass("green")){
+                    $(this).css({ 'color': green });
+                } else if ($(this).hasClass("blue")) {
+                    $(this).css({ 'color': blue });
+                } else if ($(this).hasClass("black")){
+                    $(this).css({ 'color': black });
+                } else if ($(this).hasClass("purple")) {
+                    $(this).css({ 'color': purple});
+                } else if ($(this).hasClass("red")) {
+                    $(this).css({ 'color': red });
+                }
+            });
+        });
+    </script>
+    <script src="~/Scripts/doubletaptogo.js"></script>
+    <script>
+	$( function()
+	{
+		$( 'nav li:has(ul)' ).doubleTapToGo();
+	});
+    </script>
+</body>
+</html>

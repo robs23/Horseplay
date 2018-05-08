@@ -1,0 +1,133 @@
+﻿@model IEnumerable<Horseplay.Models.TransportOrder>
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+    <br />
+    <br />
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("Dodaj zlecenie transportowe", "CreateTransportOrder");
+    }
+    else
+    {
+        <table class="info-table table-purple">
+            <tr>
+                <th><div class="info-header"><div class="small-circle circle-purple">?</div><p class="purple">Wskazówka</p></div></th>
+            </tr>
+            <tr>
+                <td>
+                    <p>Na razie nie dodałeś jeszcze żadnych zleceń transportowych. @Html.ActionLink("Dodaj zlecenie transportowe", "CreateTransportOrder") </p>
+                </td>
+            </tr>
+        </table>
+
+    }
+
+    <br/>
+    <br/>
+    <section id="no-more-tables">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Type)
+                    </th>
+                    <th>
+                        @Html.Label("Przewoźnik/pojazd")
+                    </th>
+                    <th>
+                        @Html.Label("Długość [km]")
+                    </th>
+                    <th>
+                        @Html.Label("Route", "Trasa")
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td data-title="@Html.DisplayNameFor(model => model.Type)">
+                                <p>@Utilities.EnumString(new Horseplay.Models.TransportType(),(int)item.Type)</p>
+                            </td>
+                            <td data-title="Przewoźnik/pojazd">
+                                @{ 
+                                    if (item.Type == 0)
+                                    {
+                                        if (item.PrimaryDriver != null)
+                                        {
+                                            <p>Kierowca:@if (item.PrimaryDriver != null)
+                                            {
+                                                @Html.ActionLink(item.PrimaryDriver.FullName, "EmployeeDetails", "HR", new { id = item.PrimaryDriver.EmployeeId }, null)
+                                            }</p>
+                                            <br />
+                                        }
+                                        if (item.SecondaryDriver != null)
+                                        {
+                                            <p>Kierowca 2: @if (item.SecondaryDriver != null)
+                                            {
+                                                @Html.ActionLink(item.SecondaryDriver.FullName, "EmployeeDetails", "HR", new { id = item.SecondaryDriver.EmployeeId }, null)
+                                            }</p>
+                                            <br />
+                                        }
+                                        if (item.Truck != null)
+                                        {
+                                            <p>Ciągnik: @if (item.Truck != null)
+                                            {
+                                                @Html.ActionLink(item.Truck.Plate, "VehicleDetails", "Logistics", new { id = item.Truck.VehicleId }, null)
+                                            }</p>
+                                        }
+                                        if(item.Trailer != null)
+                                        {
+                                            <b>/</b>
+                                            <p>Naczepa: @if (item.Trailer != null)
+                                            {
+                                                @Html.ActionLink(item.Trailer.Plate, "VehicleDetails", "Logistics", new { id = item.Trailer.VehicleId }, null)
+                                            }</p>
+                                        }
+                                    }
+                                    else if ((int)item.Type == 1)
+                                    {
+                                        if (item.Carrier != null)
+                                        {
+                                            <p>
+                                                @Html.ActionLink(item.Carrier.Name, "CompanyDetails", "CRM", new { id = item.Carrier.CompanyId }, null)
+                                            </p>
+                                                <br />
+                                        }
+                                    }
+                                }
+                            </td>
+                            <td data-title="Długość [km]">
+                                <p> @Html.DisplayFor(model=> item.Route.Length)</p>
+                            </td>
+                            <td data-title="Trasa">
+                                <table class="table">
+                                    <tbody>
+                                        @foreach (var stop in item.Route.Stops)
+                                        {
+                                            <tr>
+                                                <td data-title="Miejsce"> @Html.DisplayFor(x => stop.Address.FullName)</td>
+                                                <td data-title="Typ"> @Utilities.EnumString(new Horseplay.Models.StopType(), (int)stop.StopType)</td>
+                                                <td data-title="Data"> @Html.DisplayFor(x => stop.ArrivalDateShort)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edytuj", "EditTransportOrder", new { id = item.TransportOrderId }) |
+                                @Html.ActionLink("Szczegóły", "TransportOrderDetails", new { id = item.TransportOrderId }) |
+                                @Html.ActionLink("Usuń", "DeleteTransportOrder", new { id = item.TransportOrderId })
+                                @Html.ActionLink("Raport", "GenerateRouteReport", "Report", new { id= item.TransportOrderId },null)
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </section>

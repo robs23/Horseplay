@@ -1,0 +1,144 @@
+﻿@model Horseplay.Models.Employee
+@using Horseplay.Static
+
+
+    <div>
+        <br />
+        <h4>Szczegóły pracownika</h4>
+        <br />
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Surname)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
+
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.Country(), (int)Model.Country)</p>
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EmployeeGroupId)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.SelectedGroups)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BirthDay)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BirthDay)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.EmployedOn)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.EmployedOn)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.PersonalIdentityNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PersonalIdentityNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.IdNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IdNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContractType)
+            </dt>
+
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.ContractType(), (int)Model.ContractType)</p>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ExpirationDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExpirationDate)
+            </dd>
+
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Mobile)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Mobile)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Mail)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Mail)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.dateAdded, "Utworzono")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.dateAdded) przez użytkownika @Utilities.UserName((int)Model.addedBy)
+            </dd>
+            @if (Model.dateModified != null)
+            {
+                <dt>
+                    @Html.LabelFor(model => model.dateModified, "Zmodyfikowano")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.dateModified) przez użytkownika @Utilities.UserName((int)Model.modifiedBy)
+                </dd>
+            }
+        </dl>
+    </div>
+    <p>
+        @*@Html.ActionLink("Edytuj", "EditEmployee", new { id = Model.EmployeeId }) |
+        @Html.ActionLink("Powrót do listy pracowników", "GetEmployees")*@
+    </p>

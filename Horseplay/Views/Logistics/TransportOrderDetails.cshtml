@@ -1,0 +1,150 @@
+﻿@model Horseplay.Models.TransportOrder
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+    <div>
+        <h4>Szczegóły zlecenia transportowego</h4>
+        <hr />
+        <div>
+            <dl class="dl-horizontal">  
+                <dt>
+                    @Html.DisplayNameFor(model => model.Type)
+                </dt>
+    
+                <dd>
+                    <p>@Utilities.EnumString(new Horseplay.Models.TransportType(), (int)Model.Type)</p>
+                </dd>
+                @if ((int)Model.Type == 0)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PrimaryDriver)
+                    </dt>
+                    <dd>
+                        @if (Model.PrimaryDriver != null)
+                        {
+                            @Html.ActionLink(Model.PrimaryDriver.FullName, "EmployeeDetails", "HR", new { id = Model.PrimaryDriver.EmployeeId }, null)
+                        }
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SecondaryDriver)
+                    </dt>
+                    <dd>
+                        @if (Model.SecondaryDriver != null)
+                        {
+                            @Html.ActionLink(Model.SecondaryDriver.FullName, "EmployeeDetails", "HR", new { id = Model.SecondaryDriver.EmployeeId }, null)
+                        }
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Truck)
+                    </dt>
+                    <dd>
+                        @if (Model.Truck != null)
+                        {
+                            @Html.ActionLink(Model.Truck.Plate, "VehicleDetails", "Logistics", new { id = Model.Truck.VehicleId }, null)
+                        }
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Trailer)
+                    </dt>
+                    <dd>
+                        @if (Model.Trailer != null)
+                        {
+                            @Html.ActionLink(Model.Trailer.Plate, "VehicleDetails", "Logistics", new { id = Model.Trailer.VehicleId }, null)
+                        }
+                    </dd>
+                }
+                else if ((int)Model.Type == 1)
+                {
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Carrier)
+                    </dt>
+                    <dd>
+                        @if (Model.Carrier != null)
+                        {
+                            @Html.ActionLink(Model.Carrier.FullName, "CompanyDetails", "CRM", new { id = Model.Carrier.CompanyId }, null)
+                        }
+                    </dd>
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Cost)
+                    </dt>
+                    <dd>
+                        <p>@Html.DisplayFor(model=>model.Cost)</p>
+                    </dd>
+                }
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Route.Length)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Route.Length)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Remarks)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Remarks)
+                </dd>
+                <dt>
+                    @Html.LabelFor(model => model.DateAdded, "Utworzono")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.DateAdded) przez użytkownika @Utilities.UserName((int)Model.AddedBy)
+                </dd>
+                @if (Model.DateModified != null)
+                {
+                    <dt>
+                        @Html.LabelFor(model => model.DateModified, "Zmodyfikowano")
+                    </dt>
+                    <dd>
+                        @Html.DisplayFor(model => model.DateModified) przez użytkownika @Utilities.UserName((int)Model.ModifiedBy)
+                    </dd>
+                }
+            </dl>
+        </div>
+        <br />
+        <section id="no-more-tables">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.Label("Miejsce")
+                        </th>
+                        <th>
+                            @Html.Label("Data przyjazdu")
+                        </th>
+                        <td>
+                            @Html.Label("Data wyjazdu")
+                        </td>
+                        <td>
+                            @Html.Label("Typ")
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var stop in Model.Route.Stops)
+                    {
+                        <tr>
+                            <td data-title="Miejsce">
+                                @stop.Address.FullName
+                            </td>
+                            <td data-title="Data przyjazdu">
+                                @stop.ArrivalDateShort
+                            </td>
+                            <td data-title="Data wyjazdu">
+                                @stop.DepartureDateShort
+                            </td>
+                            <td data-title="Typ">
+                                @Utilities.EnumString(new Horseplay.Models.StopType(), (int)stop.StopType)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </section>
+    </div>
+    <p>
+        @Html.ActionLink("Edytuj", "EditTransportOrder", new { id = Model.TransportOrderId }) |
+        @Html.ActionLink("Powrót do listy zleceń transportowych", "GetTransportOrders")
+    </p>

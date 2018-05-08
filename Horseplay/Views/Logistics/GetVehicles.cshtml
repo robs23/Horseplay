@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Horseplay.Models.Vehicle>
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+<br />
+<br />
+@if (Model != null && Model.Any())
+{
+    @Html.ActionLink("Dodaj pojazd", "CreateVehicle");
+}
+else
+{
+    <table class="info-table table-purple">
+        <tr>
+            <th><div class="info-header"><div class="small-circle circle-purple">?</div><p class="purple">Wskazówka</p></div></th>
+        </tr>
+        <tr>
+            <td>
+                <p>Na razie nie dodałeś jeszcze żadnych pojazdów. @Html.ActionLink("Dodaj pojazd", "CreateVehicle") </p>
+            </td>
+        </tr>
+    </table>
+
+}
+<br />
+<br />
+<section id="no-more-tables">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Plate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brand)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Model)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductionYear)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td data-title="Numery">
+                        @Html.DisplayFor(modelItem => item.Plate)
+                    </td>
+                    <td data-title="Typ">
+                        <p>@Utilities.EnumString(new Horseplay.Models.VehicleType(), (int)item.Type)</p>
+                    </td>
+                    <td data-title="Marka">
+                        @Html.DisplayFor(modeItem => item.Brand)
+                    </td>
+                    <td data-title="Model">
+                        @Html.DisplayFor(modeItem => item.Model)
+                    </td>
+                    <td data-title="Rok produkcji">
+                        @Html.DisplayFor(modeItem => item.ProductionYear)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "EditVehicle", new { id = item.VehicleId }) |
+                        @Html.ActionLink("Szczegóły", "VehicleDetails", new { id = item.VehicleId }) |
+                        @Html.ActionLink("Usuń", "DeleteVehicle", new { id = item.VehicleId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

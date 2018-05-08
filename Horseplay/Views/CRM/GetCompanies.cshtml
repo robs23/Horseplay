@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Horseplay.Models.Company>
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+<br />
+
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("Dodaj firmę", "CreateCompany");
+    }
+    else
+    {
+        HtmlString al = Html.ActionLink("Dodaj firmę", "CreateCompany", "CRM");
+        string str = "Na razie nie dodałeś jeszcze żadnych firm. " + al;
+        @CustomHelper.CreateGreeter(str, "red");
+    }
+
+<br/>
+<section id="no-more-tables">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaxRegisterNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BusinessRegisterNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CourtRegisterNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaymentTerm)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-title="@Html.DisplayNameFor(model => model.Type)">
+                            <p>@Utilities.EnumString(new Horseplay.Models.CompanyType(), (int)item.Type)</p>
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.Address.Name)">
+                            @Html.DisplayFor(modelItem => item.Address.Name)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.TaxRegisterNumber)">
+                            @Html.DisplayFor(modelItem => item.TaxRegisterNumber)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.BusinessRegisterNumber)">
+                            @Html.DisplayFor(modelItem => item.BusinessRegisterNumber)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.CourtRegisterNumber)">
+                            @Html.DisplayFor(modelItem => item.CourtRegisterNumber)
+                        </td>
+                        <td data-title="Termin płatności">
+                            @Html.DisplayFor(modelItem => item.PaymentTerm)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edytuj", "EditCompany", new { id = item.CompanyId }) |
+                            @Html.ActionLink("Szczegóły", "CompanyDetails", new { id = item.CompanyId }) |
+                            @Html.ActionLink("Usuń", "DeleteCompany", new { id = item.CompanyId })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>

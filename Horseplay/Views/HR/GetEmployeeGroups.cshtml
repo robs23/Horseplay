@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Horseplay.Models.EmployeeGroup>
+
+    <br />
+
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("Dodaj grupę", "CreateEmployeeGroup");
+    }
+    else
+    {
+        <table class="info-table table-green">
+            <tr>
+                <th><div class="info-header"><div class="small-circle circle-green">?</div><p class="green">Wskazówka</p></div></th>
+            </tr>
+            <tr>
+                <td>
+                    <p>Na razie nie utworzyłeś jeszcze żadnych grup pracowników. Warto utworzyć grupy dostosowane do miejsca w którym dana osoba pracuje np. Produkcja, Magazyn, Kierowca, Kontrola jakości itd. Pozwoli to pogrupować pracowników i następnie wykonywać zadania (np. wysłanie maila) na wszystkich pracownikach naraz. @Html.ActionLink("Dodaj grupę", "CreateEmployeeGroup") </p>
+                </td>
+            </tr>
+        </table>
+    
+    }
+
+    <br />
+    <br />
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edytuj", "EditEmployeeGroup", new { id=item.EmployeeGroupId }) |
+                @Html.ActionLink("Szczegóły", "EmployeeGroupDetails", new { id=item.EmployeeGroupId }) |
+                @Html.ActionLink("Usuń", "DeleteEmployeeGroup", new { id=item.EmployeeGroupId })
+            </td>
+        </tr>
+    }
+    
+    </table>

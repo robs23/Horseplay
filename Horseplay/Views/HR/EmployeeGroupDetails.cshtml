@@ -1,0 +1,40 @@
+﻿@model Horseplay.Models.EmployeeGroup
+@using Horseplay.Static
+
+<br />
+<br />
+
+    <div>
+        <h4>Szczegóły grupy</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.LabelFor(model => model.dateAdded, "Dodano")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.dateAdded) przez użytkownika @Utilities.UserName((int)Model.addedBy)
+            </dd>
+            @if (Model.dateModified != null)
+            {
+                <dt>
+                    @Html.LabelFor(model => model.dateAdded, "Zmodyfikowano")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.dateModified) przez użytkownika @Utilities.UserName((int)Model.modifiedBy)
+                </dd>
+            }
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edytuj", "EditEmployeeGroup", new { id = Model.EmployeeGroupId }) |
+        @Html.ActionLink("Powrót do listy grup pracowników", "GetEmployeeGroups")
+    </p>

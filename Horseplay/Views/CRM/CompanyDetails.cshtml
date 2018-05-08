@@ -1,0 +1,143 @@
+﻿@model Horseplay.Models.Company
+@using Horseplay.Static
+
+    <div>
+        <h4>Szczegóły firmy</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.Street)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.Street)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.ZipCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.ZipCode)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.City)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Address.City)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Address.Country)
+            </dt>
+
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.Country(), (int)Model.Address.Country)</p>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactDetail.Phone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactDetail.Phone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactDetail.Mobile)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactDetail.Mobile)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactDetail.Fax)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ContactDetail.Fax)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ContactDetail.Mail)
+            </dt>
+
+            <dd>@{ var email = "mailTo:" + Model.ContactDetail.Mail; }
+                <a href="@email">@Html.DisplayFor(model => model.ContactDetail.Mail)</a>
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.TaxRegisterNumber)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.TaxRegisterNumber)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.BusinessRegisterNumber)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BusinessRegisterNumber)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CourtRegisterNumber)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CourtRegisterNumber)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.PaymentTerm)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.PaymentTerm)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+    
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.CompanyType(), (int)Model.Type)</p>
+            </dd>
+
+            <dt>
+                @Html.Label("Dodano")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DateAdded) przez użytkownika @Utilities.UserName((int)Model.AddedBy)
+            </dd>
+            @if (Model.DateModified != null)
+            {
+                <dt>
+                    @Html.Label("Zmodyfikowano")
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DateModified) przez użytkownika @Utilities.UserName((int)Model.ModifiedBy)
+                </dd>
+            }
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edytuj", "EditCompany", new { id = Model.CompanyId }) |
+        @Html.ActionLink("Powrót do listy firm", "GetCompanies")
+    </p>

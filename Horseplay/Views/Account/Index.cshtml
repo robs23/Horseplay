@@ -1,0 +1,15 @@
+﻿@using Horseplay.Static
+
+<br />
+
+@{
+    HtmlString al = Html.ActionLink("tutaj", "SendInvitation", "Account");
+    string str = "Ten panel służy do zarządania kontem firmy oraz użytkownika. Portal jest ciągle rozwijany i obecna funkcjonalność różni się od ostatecznej funkcjonalności...<br><br>Zaproś więcej osób do swojej firmy, razem będziecie w stanie osiągnąć zdecydowanie więcej! Jeśli jeszcze nikogo nie zaprosiłeś, możesz to zrobić " + al;
+    al = Html.ActionLink("tutaj", "GetInvitations", "Account");
+    str += ". Aby sprawdzić status wysłanych zaproszeń, zajrzyj " + al;
+    al = Html.ActionLink("tutaj", "GetUsers", "Account");
+    str += "<br>Jeśli chcesz wyświetlić listę wszystkich użytkowników obecnie powiązanych z kontem Twojej firmy, możesz zrobić to " +al;
+    @CustomHelper.CreateGreeter(str, "orange");
+}
+
+<br />

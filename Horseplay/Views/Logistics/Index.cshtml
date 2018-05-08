@@ -1,0 +1,17 @@
+﻿@using Horseplay.Static
+
+<br />
+
+@{
+    HtmlString al = Html.ActionLink("Dodaj informacje", "CreateVehicle", "Logistics");
+    string str = "Ten panel służy do zarządania logistyką firmy. Portal jest ciągle rozwijany i obecna funkcjonalność różni się od ostatecznej funkcjonalności...<br><br>" + al;
+    al = Html.ActionLink("zleceń transportowych", "CreateTransportOrder", "Logistics");
+    str += " o wszystkich pojazdach Twojej firmy, aby np. przypisywać je do tworzonych " + al;
+    al = Html.ActionLink("zlecenia transportowe", "CreateTransportOrder", "Logistics");
+    str += ".<br>Zarządzaj informacją o tym, co robi Twoja flota, tworząc " + al;
+    al = Html.ActionLink("tutaj", "GetTransportOrders", "Logistics");
+    str += "<br>Jeśli chcesz wyświetlić listę dodanych zleceń transportowych, możesz to zrobić " + al;
+    @CustomHelper.CreateGreeter(str, "purple");
+}
+
+<br />

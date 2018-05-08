@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Horseplay.Models.Invitation>
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+<br />
+@if (TempData["Success"] != null)
+{
+    <p class="alert alert-success" id="successMessage">@TempData["Success"]</p>
+    <br />
+}
+
+@if (TempData["Error"] != null)
+{
+    <p class="alert alert-danger" id="errorMessage">@TempData["Error"]</p>
+    <br />
+}
+
+@if (Model != null && Model.Any())
+{
+    @Html.ActionLink("Zaproś użytkownika!", "SendInvitation");
+}
+else
+{
+    HtmlString al = Html.ActionLink("Zaproś pierwszego użytkownika!", "SendInvitation", "Account");
+    string str = "Na razie nie zaprosiłeś jeszcze żadnego użytkownika. " + al;
+    @CustomHelper.CreateGreeter(str, "orange");
+}
+<br />
+<br />
+
+<section id="no-more-tables">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.Label("E-mail")
+                </th>
+                <th>
+                    @Html.Label("Wysłano")
+                </th>
+                <th>
+                    @Html.Label("Zaakceptowano")
+                </th>
+                <th>
+                    @Html.Label("Ważny do")
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-title="E-Mail">
+                            @Html.DisplayFor(modelItem => item.InvitedMail)
+                        </td>
+                        <td data-title="Wysłano">
+                            @Html.DisplayFor(modelItem => item.DateAdded)
+                        </td>
+                        <td data-title="Zaakceptowano">
+                            @if (item.IsAccepted)
+                            {
+                                <p class="text-success">Tak</p> 
+                            }
+                            else
+                            {
+                                <p class="text-danger">Nie</p>
+                            }
+                        </td>
+                        <td data-title="Ważny do">
+                            @Html.DisplayFor(modelItem => item.ExpirationDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Szczegóły", "InvitationDetails", new { id = item.InvitationId }) |
+                            @Html.ActionLink("Usuń", "DeleteInvitation", new { id = item.InvitationId })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</section>
+

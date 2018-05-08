@@ -1,0 +1,32 @@
+﻿@model List<Horseplay.Models.User>
+@{Horseplay.Models.User myModel = Model[0]; }
+
+<table class="table table-striped">
+
+    <tr>
+        @foreach (var prop in myModel.GetType().GetProperties())
+            {
+            if (prop.Name != "ConfirmPassword" && prop.Name != "Password")
+            {
+            <th>
+                @prop.Name
+            </th>
+            }
+        }
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            @foreach (var prop in item.GetType().GetProperties())
+            {
+                if (prop.Name != "ConfirmPassword" && prop.Name != "Password")
+                {
+                    <td>
+                        @prop.GetValue(item)
+                    </td>
+                }
+            }
+        </tr>
+    }
+   
+</table>

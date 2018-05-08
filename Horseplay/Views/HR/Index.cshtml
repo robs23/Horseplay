@@ -1,0 +1,17 @@
+﻿@using Horseplay.Static
+
+<br />
+
+@{
+    HtmlString al = Html.ActionLink("to zrobić", "CreateEmployee", "HR");
+    string str = "Ten panel służy do zarządania informacjami o pracownikach. Portal jest ciągle rozwijany i obecna funkcjonalność różni się od ostatecznej funkcjonalności...<br><br>Jeśli jeszcze nie dodałeś żadnego pracownika, warto " + al;
+    al = Html.ActionLink("zleceniu transportowym", "CreateTransportOrder", "Logistics");
+    str += ", aby np. przypisać go jako kierowcę w " + al;
+    al = Html.ActionLink("grupę pracowniczą!", "CreateEmployeeGroup", "HR");
+    str += ". Warto również połączyć wszystkich pracowników pełniących podobne obowiązki i utworzyć dla nich " + al;
+    al = Html.ActionLink("tutaj", "GetEmployees", "HR");
+    str += "<br>Jeśli chcesz wyświetlić listę wszystkich dodanych pracowników, możesz zrobić to " + al;
+    @CustomHelper.CreateGreeter(str, "green");
+}
+
+<br />

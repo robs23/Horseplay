@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Horseplay.Models.Employee>
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+<br />
+
+
+    @if (Model != null && Model.Any())
+    {
+        @Html.ActionLink("Dodaj pracownika", "CreateEmployee");
+    }
+    else
+    {
+        <table class="info-table table-green">
+            <tr>
+                <th><div class="info-header"><div class="small-circle circle-green">?</div><p class="green">Wskazówka</p></div></th>
+            </tr>
+            <tr>
+                <td>
+                    <p>Na razie nie dodałeś jeszcze żadnych pracowników. @Html.ActionLink("Dodaj pracownika", "CreateEmployee") </p>
+                </td>
+            </tr>
+        </table>
+
+    }
+
+
+
+    <br />
+    <br />
+    <section id="no-more-tables">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Surname)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SelectedGroups)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-title="@Html.DisplayNameFor(model => model.Name)">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.Surname)">
+                            @Html.DisplayFor(modelItem => item.Surname)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.SelectedGroups)">
+                            @Html.DisplayFor(modelItem => item.SelectedGroups)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.Phone)">
+                            @Html.DisplayFor(modelItem => item.Phone)
+                        </td>
+                        <td data-title="@Html.DisplayNameFor(model => model.Mobile)">
+                            @Html.DisplayFor(modelItem => item.Mobile)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edytuj", "EditEmployee", new { id = item.EmployeeId }) |
+                            @Html.ActionLink("Szczegóły", "EmployeeDetails", new { id = item.EmployeeId }) |
+                            @Html.ActionLink("Usuń", "DeleteEmployee", new { id = item.EmployeeId })
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+
+    </table>
+    </section>
+

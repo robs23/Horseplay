@@ -1,0 +1,38 @@
+﻿
+@{
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+    string cLayout = "";
+    if (controller == "Home")
+    {
+        cLayout = "~/Views/Shared/_HomeLayout.cshtml";
+    }
+    else if (controller == "Account")
+    {
+        cLayout = "~/Views/Shared/_AccountLayout.cshtml";
+    }
+    else if(controller=="HR")
+    {
+        cLayout = "~/Views/Shared/_HRLayout.cshtml";
+    }
+    else if (controller == "Logistics")
+    {
+        cLayout = "~/Views/Shared/_LogisticsLayout.cshtml";
+    }
+    else if (controller == "Finance")
+    {
+        cLayout = "~/Views/Shared/_FinanceLayout.cshtml";
+    }
+    else if (controller == "CRM")
+    {
+        cLayout = "~/Views/Shared/_CRMLayout.cshtml";
+    }
+    else if (controller == "Production")
+    {
+        cLayout = "~/Views/Shared/_ProductionLayout.cshtml";
+    }
+    else if (controller == "Error")
+    {
+        cLayout = "~/Views/Shared/_HomeLayout.cshtml";
+    }
+    Layout = cLayout;
+}

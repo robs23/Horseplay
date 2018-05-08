@@ -1,0 +1,62 @@
+﻿@model Horseplay.Models.Invitation
+@using Horseplay.Static
+
+    <h3>Czy na pewno chcesz usunąć to zaproszenie?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.Label("Adres E-mail")
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.InvitedMail)
+            </dd>
+            <dt>
+                @Html.Label("Wysłano")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateAdded) przez użytkownika @Utilities.UserName((int)Model.AddedBy)
+            </dd>
+            <dt>
+                @Html.Label("Status")
+            </dt>
+            <dd>
+                @if (Model.IsAccepted)
+                {
+                    <p>Zaakceptowana</p>
+                }
+                else
+                {
+                    <p>Nie zaakceptowana</p>
+                }
+            </dd>
+            @if (Model.IsAccepted)
+            {
+                <dt>
+                    @Html.Label("Data akceptacji")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.AcceptedOn)
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    @Html.Label("Ważna do")
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ExpirationDate)
+                </dd>
+            }
+        </dl>
+    
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(m=>m.InvitationId)
+            <div class="form-actions no-color">
+                <input type="submit" value="Usuń" class="btn btn-danger" /> |
+                @Html.ActionLink("Powrót do listy zaproszeń", "GetInvitations")
+            </div>
+        }
+    </div>

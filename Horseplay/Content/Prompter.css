@@ -1,0 +1,29 @@
+﻿.prompter button{
+    background-color:green;
+    color:#ffffff;
+}
+
+.prompter ul>li{
+    float:left;
+    display:block;
+    margin:0;
+    padding:0;
+}
+
+.prompter ul>li:hover ul{
+    display:block;
+
+}
+
+.prompter li>ul{
+    webkit-box-shadow: 0 10px 6px -6px #777;
+    -moz-box-shadow: 0 10px 6px -6px #777;
+    box-shadow: 0 10px 6px -6px #777;
+    padding: 0.5em;
+    margin-top: 0;
+    border: solid 1px grey;
+    background-color:#ffffff;
+    z-index:100;
+    position:absolute;
+    display:none;
+}

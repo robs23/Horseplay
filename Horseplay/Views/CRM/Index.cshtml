@@ -1,0 +1,15 @@
+﻿@using Horseplay.Static
+
+<br />
+
+@{
+    HtmlString al = Html.ActionLink("dodać firmę", "CreateCompany", "CRM");
+    string str = "Ten panel służy do zarządania relacjami z klientami, dostawcami i całym otoczeniem firmy. Portal jest ciągle rozwijany i obecna funkcjonalność różni się od ostatecznej funkcjonalności...<br><br>" + "Warto " + al;
+    al = Html.ActionLink("zlecenia transportowego", "CreateTransportOrder", "Logistics");
+    str += ", pozwoli to np. przypisać ją jako stronę tworzonego " + al + ".";
+    al = Html.ActionLink("tutaj", "GetCompanies", "CRM");
+    str += "<br>Jeśli chcesz wyświetlić listę wszystkich firm, z którymi współpracuje Twoja firma, możesz to zrobić " + al;
+    @CustomHelper.CreateGreeter(str, "red");
+}
+
+<br />

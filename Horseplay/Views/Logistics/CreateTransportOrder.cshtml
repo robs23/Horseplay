@@ -1,0 +1,430 @@
+﻿@model Horseplay.ViewModels.TransportOrderViewModel
+@using Horseplay.Models
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+<link href="~/Content/transport-orders.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+@*<link href="~/Content/jquery-ui.min.css" rel="stylesheet" /> @*jquery autocomplete plugin *@
+@*<script src="~/Scripts/jquery-ui.min.js"></script>*@
+
+    <br />
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal">
+        @*<form name="create_transport_order" id="create_transport_order">*@
+            <br />
+            <div class="form-group">
+                @Html.RadioButtonFor(model => model.TransportOrder.Type, Horseplay.Models.TransportType.Own, htmlAttributes: new { @class = "radio-inline", onclick = "ChangeSelection(0)", @checked = "checked" }) @Html.Label("Własny")
+                @Html.RadioButtonFor(model => model.TransportOrder.Type, Horseplay.Models.TransportType.Rented, htmlAttributes: new { @class = "radio-inline", onclick = "ChangeSelection(1)" }) @Html.Label("Podnajęty")
+            </div>
+            <div id="ownTransport">
+                <div class="my-row">
+                    @Html.LabelFor(model => model.TransportOrder.PrimaryDriver, htmlAttributes: new { @class = "control-label my-label" })
+                    <div class="my-input">
+                        @Html.DropDownListFor(model => model.SelectedPrimaryDriver, new SelectList(Model.Employees, "EmployeeId", "FullName"), "Wybierz", new { @class = "form-control", id="dd-primary-driver" })
+                        @Html.ValidationMessageFor(model => model.TransportOrder.PrimaryDriver, "", new { @class = "text-danger" })
+                    </div>
+                    @{
+                        string str = "";
+                        if (!Model.Employees.Any())
+                        {
+                            HtmlString al = Html.ActionLink("dodaj pracownika", "CreateEmployee", "HR");
+                            str = "Wygląda na to, że nie dodałeś jeszcze żadnego pracownika, którego mógłbyś przypisać jako kierowcę.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                        }
+                        else
+                        {
+                            HtmlString al = Html.ActionLink("tutaj", "GetEmployees", "HR");
+                            str = "Wybierz pracownika z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać pracownika lub zmienić jego dane, możesz zrobić to "+ al+ ".";
+                        }
+                        @CustomHelper.CreatePrompter(str, "purple");
+                    }
+                </div>
+                <div class="my-row">
+                    @Html.LabelFor(model => model.TransportOrder.SecondaryDriver, htmlAttributes: new { @class = "control-label my-label" })
+                    <div class="my-input">
+                        @Html.DropDownListFor(model => model.SelectedSecondaryDriver, new SelectList(Model.Employees, "EmployeeId", "FullName"), "Wybierz", new { @class = "form-control", id="dd-secondary-driver" })
+                        @Html.ValidationMessageFor(model => model.TransportOrder.SecondaryDriver, "", new { @class = "text-danger" })
+                    </div>
+                    @{
+                        if (!Model.Employees.Any())
+                        {
+                            HtmlString al = Html.ActionLink("dodaj pracownika", "CreateEmployee", "HR");
+                            str = "Wygląda na to, że nie dodałeś jeszcze żadnego pracownika, którego mógłbyś przypisać jako kierowcę.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                        }
+                        else
+                        {
+                            HtmlString al = Html.ActionLink("tutaj", "GetEmployees", "HR");
+                            str = "Wybierz pracownika z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać pracownika lub zmienić jego dane, możesz zrobić to " + al + ".";
+                        }
+                        @CustomHelper.CreatePrompter(str, "purple");
+                    }
+                </div>
+                <div class="my-row">
+                    @Html.LabelFor(model => model.TransportOrder.Truck, htmlAttributes: new { @class = "control-label my-label" })
+                    <div class="my-input">
+                        @Html.DropDownListFor(model => model.SelectedTruck, new SelectList(Model.Vehicles, "VehicleId", "Plate"), "Wybierz", new { @class = "form-control", id="dd-truck" })
+                        @Html.ValidationMessageFor(model => model.TransportOrder.Truck, "", new { @class = "text-danger" })
+                    </div>
+                    @{
+                        if (!Model.Vehicles.Any())
+                        {
+                            HtmlString al = Html.ActionLink("dodaj pojazd", "CreateVehicle", "Logistics");
+                            str = "Wygląda na to, że nie dodałeś jeszcze żadnego pojazdu, którego mógłbyś przypisać do tego zlecenia.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                        }
+                        else
+                        {
+                            HtmlString al = Html.ActionLink("tutaj", "GetVehicles", "Logistics");
+                            str = "Wybierz pojazd z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać pojazd lub zmienić jego dane, możesz zrobić to " + al + ".";
+                        }
+                        @CustomHelper.CreatePrompter(str, "purple");
+                    }
+                </div>
+                <div class="my-row">
+                    @Html.LabelFor(model => model.TransportOrder.Trailer, htmlAttributes: new { @class = "control-label my-label" })
+                    <div class="my-input">
+                        @Html.DropDownListFor(model => model.SelectedTrailer, new SelectList(Model.Trailers, "VehicleId", "Plate"), "Wybierz", new { @class = "form-control", id="dd-trailer" })
+                        @Html.ValidationMessageFor(model => model.TransportOrder.Trailer, "", new { @class = "text-danger" })
+                    </div>
+                    @{
+                        if (!Model.Trailers.Any())
+                        {
+                            HtmlString al = Html.ActionLink("dodaj pojazd", "CreateVehicle", "Logistics");
+                            str = "Wygląda na to, że nie dodałeś jeszcze żadnego pojazdu, którego mógłbyś przypisać do tego zlecenia.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                        }
+                        else
+                        {
+                            HtmlString al = Html.ActionLink("tutaj", "GetVehicles", "Logistics");
+                            str = "Wybierz pojazd z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać pojazd lub zmienić jego dane, możesz zrobić to " + al + ".";
+                        }
+                        @CustomHelper.CreatePrompter(str, "purple");
+                    }
+                </div>
+            </div>
+            <div id="rentedTransport">
+
+            <div class="my-row">
+                @Html.Label("Przewoźnik", htmlAttributes: new { @class = "control-label my-label" })
+                <div class="my-input">
+                    @Html.DropDownListFor(model => model.SelectedCarrier, new SelectList(Model.Carriers, "CompanyId", "Name"), "Wybierz", new { @class = "form-control", id="dd-carrier" })
+                    @Html.ValidationMessageFor(model => model.TransportOrder.Carrier, "", new { @class = "text-danger" })
+                </div>
+                @{
+                    if (!Model.Carriers.Any())
+                    {
+                        HtmlString al = Html.ActionLink("dodaj przewoźnika", "CreateCompany", "CRM");
+                        str = "Wygląda na to, że nie dodałeś jeszcze żadnego przewoźnika, którego mógłbyś przypisać do tego zlecenia.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                    }
+                    else
+                    {
+                        HtmlString al = Html.ActionLink("tutaj", "GetCompanies", "CRM");
+                        str = "Wybierz przewoźnika z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać przewoźnika lub zmienić jego dane, możesz zrobić to " + al + ".";
+                    }
+                    @CustomHelper.CreatePrompter(str, "purple");
+                }
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.TransportOrder.Cost, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(model=>model.TransportOrder.Cost, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.TransportOrder.Cost, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="my-row">
+            @Html.Label("Klient", htmlAttributes: new { @class = "control-label my-label" })
+            <div class="my-input">
+                @Html.DropDownListFor(model => model.SelectedCustomer, new SelectList(Model.Customers, "CompanyId", "Name"), "Wybierz", new { @class = "form-control", id="dd-customer" })
+                @Html.ValidationMessageFor(model => model.TransportOrder.Customer, "", new { @class = "text-danger" })
+            </div>
+            @{
+                if (!Model.Customers.Any())
+                {
+                    HtmlString al = Html.ActionLink("dodaj klienta", "CreateCompany", "CRM");
+                    str = "Wygląda na to, że nie dodałeś jeszcze żadnego klienta, którego mógłbyś przypisać do tego zlecenia.</br>Najpierw " + al + " a on pojawi się tutaj po odświeżeniu strony!";
+                }
+                else
+                {
+                    HtmlString al = Html.ActionLink("tutaj", "GetCompanies", "CRM");
+                    str = "Wybierz klienta z rozwijanej listy obok.</br>Jeśli potrzebujesz dodać klienta lub zmienić jego dane, możesz zrobić to " + al + ".";
+                }
+                @CustomHelper.CreatePrompter(str, "purple");
+            }
+        </div>
+            <div id="routeLength">
+                <div class="form-group">
+                    @Html.LabelFor(model=>model.TransportOrder.Route.Length, htmlAttributes: new {@class= "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(model=>model.TransportOrder.Route.Length, htmlAttributes: new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model=>model.TransportOrder.Route.Length, "", new {@class = "text-danger"})
+                    </div>
+                </div>
+            </div>
+            <div id="remarks">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.TransportOrder.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.TransportOrder.Remarks, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.TransportOrder.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        <section id="no-more-tables">
+            <table class="table table-bordered" id="dynamic_field">
+                <thead>
+                    <tr id="tableHeader">
+                        <th>Adres</th>
+                        <th>Data przyjazdu</th>
+                        <th>Data wyjazdu</th>
+                        <th>Typ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr id="startRow">
+                        <td data-title="Adres" class="td-address">
+                            <div id="aw-0" class="AddressWrapper">
+                                @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[0].Address.Name, htmlAttributes: new { @class = "form-control address-name", placeholder = "Wprowadź nazwę punktu początkowego"})
+                                <i class="material-icons" onclick="expandAddress(this.parentNode.id)" title="Rozwiń">keyboard_arrow_down</i>
+                                <div id="address-0" class="address">
+                                    @Html.TextBoxFor(model=>model.TransportOrder.Route.Stops[0].Address.Street, htmlAttributes: new {@class="form-control address-street", placeholder = "Ulica" })
+                                    @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[0].Address.ZipCode, htmlAttributes: new { @class = "form-control address-code", placeholder = "Kod" })
+                                    @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[0].Address.City, htmlAttributes: new { @class = "form-control address-city", placeholder = "Miejscowość" })
+                                    @Html.DropDownListFor(model => model.TransportOrder.Route.Stops[0].Address.Country, Model.Countries(0), new { @class = "form-control address-country", placeholder = "Kraj" })
+                                </div>
+                            </div>
+                        </td>
+                        <td data-title="Data przyjazdu">@Html.TextBoxFor(model => model.TransportOrder.Route.Stops[0].ArrivalDate, htmlAttributes: new { @class = "form-control date-arrival", placeholder = "Data przyjazdu", type = "date", onchange = "updateDeparture(this.id)" })</td>
+                        <td data-title="Data wyjazdu">@Html.TextBoxFor(model => model.TransportOrder.Route.Stops[0].DepartureDate, htmlAttributes: new { @class = "form-control date-departure", placeholder = "Data wyjazdu", type = "date" })</td>
+                        <td data-title="Typ">@Html.DropDownListFor(model => model.TransportOrder.Route.Stops[0].StopType, Model.StopTypes(0), htmlAttributes: new { @class = "form-control stop-type" })</td>
+                        <td></td>
+                    </tr>
+                    <tr id="finishRow">
+                        <td data-title="Adres" class="td-address">
+                            <div id="aw-1" class="AddressWrapper">
+                                @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].Address.Name, htmlAttributes: new { @class = "form-control address-name", placeholder = "Wprowadź nazwę punktu końcowego" })
+                                <i class="material-icons" onclick="expandAddress(this.parentNode.id)" title="Rozwiń">keyboard_arrow_down</i>
+                                <div id="address-1" class="address">
+                                    @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].Address.Street, htmlAttributes: new { @class = "form-control address-street", placeholder = "Ulica" })
+                                    @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].Address.ZipCode, htmlAttributes: new { @class = "form-control address-code", placeholder = "Kod" })
+                                    @Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].Address.City, htmlAttributes: new { @class = "form-control address-city", placeholder = "Miejscowość" })
+                                    @Html.DropDownListFor(model => model.TransportOrder.Route.Stops[1].Address.Country, Model.Countries(0), new { @class = "form-control address-country", placeholder = "Kraj" })
+                                </div>
+                            </div>
+                        </td>
+                        <td data-title="Data przyjazdu">@Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].ArrivalDate, htmlAttributes: new { @class = "form-control date-arrival", placeholder = "Data przyjazdu", type = "date", onchange = "updateDeparture(this.id)" })</td>
+                        <td data-title="Data wyjazdu">@Html.TextBoxFor(model => model.TransportOrder.Route.Stops[1].DepartureDate, htmlAttributes: new { @class = "form-control date-departure", placeholder = "Data wyjazdu", type = "date" })</td>
+                        <td data-title="Typ">@Html.DropDownListFor(model => model.TransportOrder.Route.Stops[1].StopType, Model.StopTypes(1), htmlAttributes: new { @class = "form-control stop-type" })</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="buttons">
+            <div style="margin:auto; width:220px">
+                <input type="button" name="add" id="add" value="Dodaj miejsce" class="btn btn-default" title="Dodaj miejsce"/>
+                <input type="submit" name="submit" id="submit" value="Zapisz" class="btn btn-success" title="Zapisz" style="margin-left: 20px" />
+            </div>
+        </section>
+    </div>
+
+    }
+
+<script>
+
+    $(document).ready(function () {
+        $('.address').hide();
+        ChangeSelection(0);
+        var i = 0;
+        $('#add').click(function () {
+            var arr = $("#finishRow").find(".AddressWrapper").attr("id").split("-");
+            i = arr[1];
+
+            document.getElementById('aw-' + i).setAttribute('id', 'aw-' + Number(Number(i) + Number(1)))
+            document.getElementById('address-' + i).setAttribute('id', 'address-' + Number(Number(i) + Number(1)))
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Name').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].Address.Name')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Name').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__Address_Name')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Street').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].Address.Street')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Street').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__Address_Street')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_ZipCode').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].Address.ZipCode')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_ZipCode').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__Address_ZipCode')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_City').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].Address.City')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_City').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__Address_City')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Country').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].Address.Country')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__Address_Country').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__Address_Country')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__ArrivalDate').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].ArrivalDate')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__ArrivalDate').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__ArrivalDate')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__DepartureDate').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].DepartureDate')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__DepartureDate').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__DepartureDate')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__StopType').setAttribute('name', 'TransportOrder.Route.Stops[' + Number(Number(i) + Number(1)) + '].StopType')
+            document.getElementById('TransportOrder_Route_Stops_' + i + '__StopType').setAttribute('id', 'TransportOrder_Route_Stops_' + Number(Number(i) + Number(1)) + '__StopType')
+            var opt = '@Html.Raw(Model.CoutryOptionList)';
+            $('#finishRow').before('<tr id="row' + i + '"><td data-title="Adres" class="td-address"><div id="aw-' + i + '" class="AddressWrapper"><input type="text" name="TransportOrder.Route.Stops[' + i + '].Address.Name" id="TransportOrder_Route_Stops_' + i + '__Address_Name" placeholder="Wprowadź nazwę punktu pośredniego" class="form-control address-name" data-val="true" data-val-required="Pole Nazwa firmy jest wymagane!"/><i class="material-icons" onclick="expandAddress(this.parentNode.id)" title="Rozwiń">keyboard_arrow_down</i><div id="address-' + i + '" class="address"><input class="form-control address-street" id="TransportOrder_Route_Stops_' + i + '__Address_Street" name="TransportOrder.Route.Stops[' + i + '].Address.Street" placeholder="Ulica" value="" type="text"><input class="form-control address-code" id="TransportOrder_Route_Stops_' + i + '__Address_ZipCode" name="TransportOrder.Route.Stops[' + i + '].Address.ZipCode" placeholder="Kod" value="" type="text"><input class="form-control address-city" id="TransportOrder_Route_Stops_' + i + '__Address_City" name="TransportOrder.Route.Stops[' + i + '].Address.City" placeholder="Miejscowość" value="" type="text"><select class="form-control address-country valid" data-val="true" data-val-required="The Kraj field is required." id="TransportOrder_Route_Stops_' + i + '__Address_Country" name="TransportOrder.Route.Stops[' + i + '].Address.Country" placeholder="Kraj">' + opt + '</select></div></div></td><td data-title="Data przyjazdu"><input type="date" name="TransportOrder.Route.Stops[' + i + '].ArrivalDate" id="TransportOrder_Route_Stops_' + i + '__ArrivalDate"" placeholder="Data przyjazdu" onchange="updateDeparture(this.id)" class="form-control date-arrival" data-val="true" data-val-date="Pole Data przyjazdu musi być w formacie daty." /></td><td data-title="Data wyjazdu"><input type="date" name="TransportOrder.Route.Stops[' + i + '].DepartureDate" id="TransportOrder_Route_Stops_' + i + '__DepartureDate"" placeholder="Data wyjazdu" class="form-control date-departure" data-val="true" data-val-date="Pole Data wyjazdu musi być w formacie daty." /></td><td data-title="Typ"><select class="form-control stop-type valid" data-val="true" data-val-required="Pole Typ jest wymagane!" id="TransportOrder_Route_Stops_' + i + '__StopType" name="TransportOrder.Route.Stops[' + i + '].StopType"><option value="loading">Załadunek</option><option value="unloading">Rozładunek</option><option value="parking">Parking</option><option value="other">Inne</option></select></td><td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn-remove" title="Usuń tę pozycję">X</button></td></tr>')
+            colapseAddress('aw-' + i);
+            enableAutoComplete($(".address-name"));
+        });
+        $(document).on('click', '.btn-remove', function () {
+            var button_id = $(this).attr("id");
+            $("#row" + button_id + "").remove();
+            var topRow = $('#finishRow');
+            var arr = topRow.find('.AddressWrapper').attr("id").split("-");
+            var topId = arr[1];
+            for (var i = button_id; i < topId ; i++) {
+                var currentRow = $('#row' + i);
+                currentRow.find('.AddressWrapper').attr("id", "aw-" + (i - 1));
+                currentRow.find('.address-name').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Name");
+                currentRow.find('.address-name').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Name");
+                currentRow.find('#address-' + i).attr("id", "address-" + (i - 1));
+                currentRow.find('.address-street').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Street");
+                currentRow.find('.address-street').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Street");
+                currentRow.find('.address-code').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_ZipCode");
+                currentRow.find('.address-code').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.ZipCode");
+                currentRow.find('.address-city').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_City");
+                currentRow.find('.address-city').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.City");
+                currentRow.find('.address-country').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Country");
+                currentRow.find('.address-country').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Country");
+                currentRow.find('.date-arrival').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__ArrivalDate");
+                currentRow.find('.date-arrival').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].ArrivalDate");
+                currentRow.find('.date-departure').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__DepartureDate");
+                currentRow.find('.date-departure').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].DepartureDate");
+                currentRow.find('.stop-type').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__StopType");
+                currentRow.find('.stop-type').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].StopType");
+                currentRow.find('.btn').attr("id", (i - 1));
+                currentRow.attr("id", "row" + (i - 1));
+            }
+            i = topId;
+            topRow.find('.AddressWrapper').attr("id", "aw-" + (i - 1));
+            topRow.find('.address-name').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Name");
+            topRow.find('.address-name').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Name");
+            topRow.find('#address-' + i).attr("id", "address-" + (i - 1));
+            topRow.find('.address-street').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Street");
+            topRow.find('.address-street').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Street");
+            topRow.find('.address-code').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_ZipCode");
+            topRow.find('.address-code').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.ZipCode");
+            topRow.find('.address-city').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_City");
+            topRow.find('.address-city').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.City");
+            topRow.find('.address-country').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__Address_Country");
+            topRow.find('.address-country').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].Address.Country");
+            topRow.find('.date-arrival').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__ArrivalDate");
+            topRow.find('.date-arrival').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].ArrivalDate");
+            topRow.find('.date-departure').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__DepartureDate");
+            topRow.find('.date-departure').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].DepartureDate");
+            topRow.find('.stop-type').attr("id", "TransportOrder_Route_Stops_" + (i - 1) + "__StopType");
+            topRow.find('.stop-type').attr("name", "TransportOrder.Route.Stops[" + (i - 1) + "].StopType");
+            return false;
+        });
+        enableAutoComplete($(".address-name"));
+    });
+    function ChangeSelection(newSelect) {
+        if (newSelect == 0) {
+            //own transport
+            $('#ownTransport').show();
+            $('#rentedTransport').hide();
+        } else {
+            //rented transport
+            $('#ownTransport').hide();
+            $('#rentedTransport').show();
+        }
+
+    }
+    function updateDeparture(element_Id) {
+        var arr = element_Id.split('_');
+        var arrival = document.getElementById('TransportOrder_Route_Stops_' + arr[3] + '__ArrivalDate');
+        if (arrival != null) {
+            var arrDate = arrival.value;
+            document.getElementById('TransportOrder_Route_Stops_' + arr[3] + '__DepartureDate').value = arrDate;
+        }
+    }
+
+    function getCountries() {
+        return $.ajax({
+            //url: '<%= Url.Action("GetCountryOptionList", "Logistics") %>',
+            url: 'GetCountryOptionList',
+            dataType: "text",
+            error: function () {
+                alert("Błąd w getCountries");
+            }
+        });
+    }
+
+    function colapseAddress(elementId) {
+        var arr = elementId.split('-');
+        var i = 0;
+        $('#address-' + arr[1]).hide();
+        for (var child = document.getElementById('aw-' + arr[1]).firstChild; child != null; child = child.nextSibling) {
+            if (child.nodeName == "I") {
+                child.textContent = "keyboard_arrow_down";
+                child.title = "Rozwiń";
+                child.onclick = function () { expandAddress(elementId); };
+            }
+        }
+    }
+
+
+    function expandAddress(elementId) {
+        var arr = elementId.split('-');
+        var i = 0;
+        $('#address-' + arr[1]).show();
+        for (var child = document.getElementById('aw-' + arr[1]).firstChild; child != null; child = child.nextSibling) {
+            if (child.nodeName == "I") {
+                child.textContent = "keyboard_arrow_up";
+                child.title = "Zwiń";
+                child.onclick = function () { colapseAddress(elementId); };
+            }
+        }
+    }
+
+
+
+    function enableAutoComplete($element) {
+        if (typeof jQuery != 'undefined') {
+            if (typeof jQuery.ui != 'undefined') {
+                $element.autocomplete({
+                    source: function (request, response) {
+                        $.ajax({
+                            url: "SearchAddress",
+                            type: "POST",
+                            dataType: "JSON",
+                            data: { Prefix: request.term },
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item.Name, value: item.Name, Street: item.Street, ZipCode: item.ZipCode, City: item.City, Country: item.Country };
+                                }))
+                            }
+                        })
+                    },
+                    select: function (event, ui) {
+                        var arr = $(this).attr('id').split('_');
+
+                        $('#aw-' + arr[3]).find('.address-street').val(ui.item.Street);
+                        $('#aw-' + arr[3]).find('.address-code').val(ui.item.ZipCode);
+                        $('#aw-' + arr[3]).find('.address-city').val(ui.item.City);
+                        $('#aw-' + arr[3]).find('.address-country').val(ui.item.Country);
+                    }
+
+                });
+            } else {
+                window.setTimeout(enableAutoComplete($element), 50);
+            }
+        } else {
+            window.setTimeout(enableAutoComplete($element), 50);
+        }
+
+    }
+
+
+</script>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#dd-primary-driver').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+            $('#dd-secondary-driver').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+            $('#dd-truck').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+            $('#dd-trailer').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+            $('#dd-carrier').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+            $('#dd-customer').chosen({ width: '100%', no_results_text: "Brak wyników dla.." });
+        });
+    </script>
+}
+

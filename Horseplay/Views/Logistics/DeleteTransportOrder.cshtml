@@ -1,0 +1,121 @@
+﻿@model Horseplay.Models.TransportOrder
+@using Horseplay.Static
+
+<link href="~/Content/table-handler.css" rel="stylesheet" />
+
+<div>
+    <h3>Czy na pewno chcesz usunąć to zlecenie transportowe?</h3>
+    <hr />
+    <div>
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.TransportType(), (int)Model.Type)</p>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PrimaryDriver)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.PrimaryDriver.FullName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.SecondaryDriver)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SecondaryDriver.FullName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Truck)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Truck.Plate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Trailer)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Trailer.Plate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Route.Length)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Route.Length)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Remarks)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Remarks)
+            </dd>
+            <dt>
+                @Html.LabelFor(model => model.DateAdded, "Data utworzenia")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateAdded)
+            </dd>
+            <dt>
+                @Html.LabelFor(model => model.DateModified, "Data ostatniej modyfikacji")
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DateModified)
+            </dd>
+        </dl>
+    </div>
+    <br />
+    <section id="no-more-tables">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Miejsce")
+                    </th>
+                    <th>
+                        @Html.Label("Data przyjazdu")
+                    </th>
+                    <td>
+                        @Html.Label("Data wyjazdu")
+                    </td>
+                    <td>
+                        @Html.Label("Typ")
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var stop in Model.Route.Stops)
+                {
+                    <tr>
+                        <td data-title="Miejsce">
+                            @stop.Address.FullName
+                        </td>
+                        <td data-title="Data przyjazdu">
+                            @stop.ArrivalDateShort
+                        </td>
+                        <td data-title="Data wyjazdu">
+                            @stop.DepartureDateShort
+                        </td>
+                        <td data-title="Typ">
+                            @Utilities.EnumString(new Horseplay.Models.StopType(), (int)stop.StopType)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.TransportOrderId)
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Usuń" class="btn btn-danger" /> |
+                @Html.ActionLink("Powrót do listy zleceń transportowych", "GetTransportOrders")
+            </div>
+        }
+

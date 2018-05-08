@@ -1,0 +1,109 @@
+﻿@model Horseplay.Models.Vehicle
+@using Horseplay.Static
+
+    <h3>Czy na pewno chcesz usunąć ten pojazd?</h3>
+    <div>
+        <h4>Usuwanie pojazdu</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Plate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Plate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Type)
+            </dt>
+
+            <dd>
+                <p>@Utilities.EnumString(new Horseplay.Models.VehicleType(), (int)Model.Type)</p>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Brand)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Brand)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Model)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Model)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductionYear)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProductionYear)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RegistrationDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RegistrationDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Vin)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Vin)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ServiceDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ServiceDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Capacity)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DefaultUser)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DefaultUser.FullName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+
+    
+        </dl>
+        <br />
+        @using (Html.BeginForm()) {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model=>model.VehicleId)
+    
+            <div class="form-actions no-color">
+                <input type="submit" value="Usuń" class="btn btn-danger" /> |
+                @Html.ActionLink("Powrót do listy pojazdów", "GetVehicles")
+            </div>
+        }
+    </div>
