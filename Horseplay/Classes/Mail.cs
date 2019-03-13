@@ -20,9 +20,9 @@ namespace Horseplay.Classes
 
             Email = new MailMessage();
             Smtp = new SmtpClient();
-            Smtp.Host = "poczta.webserwer.pl";
+            Smtp.Host = "smtp.webio.pl";
             Smtp.EnableSsl = true;
-            Smtp.Port = 587;//or 465 or 25 or 587
+            Smtp.Port = 465;//or 465 or 25 or 587
             Smtp.UseDefaultCredentials = false;
             var ConfManager = ConfigurationManager.AppSettings["NOREPLY_PASSWORD"];
             Smtp.Credentials = new System.Net.NetworkCredential("no-reply@systo.pl", ConfManager);
