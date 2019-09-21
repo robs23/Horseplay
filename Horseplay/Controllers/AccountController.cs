@@ -177,12 +177,12 @@ namespace Horseplay.Controllers
                             Mail newMail = new Mail();
                             string iName = Utilities.UserName(userId);
                             string[] names = iName.Split(' ');
-                            string textBody = "Użytkownik " + iName + " zaprasza Cię do dołączenia do jego firmy w Systo.pl! Aby przyjąć jego propozycję, skopiuj ten link do przeglądarki i utwórz swoje konto: http://systo.pl/Home/AcceptInvitation/" + token;
-                            string htmlBody = "<h2 align=\"center\">Użytkownik " + iName + " zaprasza Cię do dołączenia do jego firmy w Systo.pl!</h2><br>";
+                            string textBody = "Użytkownik " + iName + " zaprasza Cię do dołączenia do jego firmy w usłudze Systo! Aby przyjąć jego propozycję, skopiuj ten link do przeglądarki i utwórz swoje konto: https://systo.rr-soft.pl/Home/AcceptInvitation/" + token;
+                            string htmlBody = "<h2 align=\"center\">Użytkownik " + iName + " zaprasza Cię do dołączenia do jego firmy w usłudze Systo!</h2><br>";
                             htmlBody += "<p align=\"center\"><font size=\"4\">Aby przyjąć jego propozycję, kliknij poniższy link i utwórz swoje konto. System automatycznie połączy Twoje konto z kontem użytkownika " + names[0] + "</font></p>";
-                            htmlBody += "<br><p align=\"center\"><a href=\"http://systo.pl/Home/AcceptInvitation/" + token + "\">systo.pl/Home/AcceptInvitation/" + token + "/</a></p>";
+                            htmlBody += "<br><p align=\"center\"><a href=\"https://systo.rr-soft.pl/Home/AcceptInvitation/" + token + "\">systo.rr-soft.pl/Home/AcceptInvitation/" + token + "/</a></p>";
                             htmlBody += "<br><br><p align=\"center\"><font size=\"2\">Wiadomość zotała wysłana automatycznie, prosimy na nią nie odpowiadać</font></p>";
-                            newMail.Send(Invitation.InvitedMail, iName + " zaprasza Cię do współpracy w Systo.pl", textBody , htmlBody);
+                            newMail.Send(Invitation.InvitedMail, iName + " zaprasza Cię do współpracy w usłudze Systo", textBody , htmlBody);
                             Invitation nInv = new Invitation();
                             nInv.TenantId = tenantId;
                             nInv.InvitedMail = Invitation.InvitedMail;

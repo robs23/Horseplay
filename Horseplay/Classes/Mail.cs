@@ -22,10 +22,10 @@ namespace Horseplay.Classes
             Smtp = new SmtpClient();
             Smtp.Host = "smtp.webio.pl";
             Smtp.EnableSsl = true;
-            Smtp.Port = 465;//or 465 or 25 or 587
+            Smtp.Port = 587;//or 465 or 25 or 587
             Smtp.UseDefaultCredentials = false;
             var ConfManager = ConfigurationManager.AppSettings["NOREPLY_PASSWORD"];
-            Smtp.Credentials = new System.Net.NetworkCredential("no-reply@systo.pl", ConfManager);
+            Smtp.Credentials = new System.Net.NetworkCredential("no-reply@systo.rr-soft.pl", ConfManager);
             Smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
         }
         public void Send(string inputEmail, string subject, string textBody, string htmlBody)
@@ -34,7 +34,7 @@ namespace Horseplay.Classes
             {
                 //creating an email
 
-                MailAddress fromAddress = new MailAddress("no-reply@systo.pl", "systo.pl");
+                MailAddress fromAddress = new MailAddress("no-reply@systo.rr-soft.pl", "Systo");
                 this.Email.From = fromAddress;
                 this.Email.To.Add(inputEmail);
                 this.Email.Subject = subject;

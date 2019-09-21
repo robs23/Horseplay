@@ -238,7 +238,7 @@ namespace Horseplay.Controllers
 
         public ActionResult AboutAuthor()
         {
-            return View();
+            return Redirect("https://rr-soft.pl");
         }
 
         public ActionResult AboutApplication()
@@ -253,13 +253,13 @@ namespace Horseplay.Controllers
             {
                 //try send mail first
                 Mail newMail = new Mail();
-                string textBody = "Witaj na Systo.pl! Tego maila otrzymujesz, ponieważ ktoś podał Twój adres e-mail jako adres kontaktowy przy tworzeniu nowego konta. Jeśli to Ty, skopiuj ten adres do przeglądarki, zatwierdź klawiszem ENTER: http://systo.pl/Home/ConfirmUserMail/" + token + " . Na potwierdzenie adresu masz 14 dni od daty otrzymania tej wiadomości, po upływie tego terminu niepotwierdzone konta zostaną usunięte. Jeśli to nie Ty rejestrowałeś się na Systo.pl a Twój adres został użyty bez Twojej zgody, prosimy o zignorowanie tej wiadomości!";
-                string htmlBody = "<h2 align=\"center\"Witaj na Systo.pl!</h2><br>";
-                htmlBody += "<p align=\"center\"><font size=\"4\">Tego maila otrzymujesz, ponieważ ktoś podał Twój adres e-mail jako adres kontaktowy przy tworzeniu nowego konta. Jeśli to Ty rejestrowałeś się na Systo.pl, kliknij poniższy adres aby zakończyć proces tworzenia konta. Na potwierdzenie adresu masz 14 dni od daty otrzymania tej wiadomości, po upływie tego terminu niepotwierdzone konta zostaną usunięte.</font></p>";
-                htmlBody += "<br><p align=\"center\"><a href=\"http://systo.pl/Home/ConfirmUserMail/" + token + "\">systo.pl/Home/ConfirmUserMail/" + token + "/</a></p>";
-                htmlBody += "<br><br><p align=\"center\"><font size=\"2\">Jeśli to nie Ty rejestrowałeś się na Systo.pl a Twój adres został użyty bez Twojej zgody, prosimy o zignorowanie tej wiadomości!</font></p>";
+                string textBody = "Witaj na Systo! Tego maila otrzymujesz, ponieważ ktoś podał Twój adres e-mail jako adres kontaktowy przy tworzeniu nowego konta. Jeśli to Ty, skopiuj ten adres do przeglądarki, zatwierdź klawiszem ENTER: https://systo.rr-soft.pl/Home/ConfirmUserMail/" + token + " . Na potwierdzenie adresu masz 14 dni od daty otrzymania tej wiadomości, po upływie tego terminu niepotwierdzone konta zostaną usunięte. Jeśli to nie Ty rejestrowałeś się w usułdze Systo a Twój adres został użyty bez Twojej zgody, prosimy o zignorowanie tej wiadomości!";
+                string htmlBody = "<h2 align=\"center\"Witaj na Systo!</h2><br>";
+                htmlBody += "<p align=\"center\"><font size=\"4\">Tego maila otrzymujesz, ponieważ ktoś podał Twój adres e-mail jako adres kontaktowy przy tworzeniu nowego konta. Jeśli to Ty rejestrowałeś się w usłudze Systo, kliknij poniższy adres aby zakończyć proces tworzenia konta. Na potwierdzenie adresu masz 14 dni od daty otrzymania tej wiadomości, po upływie tego terminu niepotwierdzone konta zostaną usunięte.</font></p>";
+                htmlBody += "<br><p align=\"center\"><a href=\"https://systo.rr-soft.pl/Home/ConfirmUserMail/" + token + "\">systo.rr-soft.pl/Home/ConfirmUserMail/" + token + "/</a></p>";
+                htmlBody += "<br><br><p align=\"center\"><font size=\"2\">Jeśli to nie Ty rejestrowałeś się w usłudze Systo a Twój adres został użyty bez Twojej zgody, prosimy o zignorowanie tej wiadomości!</font></p>";
                 htmlBody += "<br><br><p align=\"center\"><font size=\"2\">Wiadomość zotała wysłana automatycznie, prosimy na nią nie odpowiadać</font></p>";
-                newMail.Send(mail, "Link aktywacyjny do konta w Systo.pl", textBody, htmlBody);
+                newMail.Send(mail, "Link aktywacyjny do konta w Systo", textBody, htmlBody);
                 result = "Na adres " + mail + " została wysłana wiadomość z linkiem aktywacyjnym. Jeśli konto nie zostanie aktywowane w ciągu 14 dni, dostęp do niego zostanie zablokowany!";
             }
             catch (Exception ex)

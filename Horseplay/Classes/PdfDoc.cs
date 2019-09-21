@@ -35,7 +35,7 @@ namespace Horseplay.Classes
         {
             this.document = new Document();
             document.Info.Title = "Raport dla trasy";
-            document.Info.Author = "Systo.pl";
+            document.Info.Author = "Systo";
             DefineStyles();
             CreatePage();
             FillContent();

@@ -153,8 +153,8 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="PdfTemplates\routeReport.pdf" />
     <Content Include="ConnectionStrings.config" />
-    <None Include="Properties\PublishProfiles\systo.pl - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Systo.pl.pubxml" />
+    <None Include="Properties\PublishProfiles\systo.rr-soft.pl - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Images\BI_800.png" />
     <Content Include="Images\cloud_office_800.png" />
